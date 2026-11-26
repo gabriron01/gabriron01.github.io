@@ -41,16 +41,18 @@ the site only, mark it `only: web`:
     A long bullet that stays on the website but is trimmed from the PDF.
 ```
 
-`only: pdf` does the same in the other direction. Education notes use `note_only: web` /
-`note_only: pdf`. A role can use `bullets:` directly (no `groups:` wrapper needed unless
-you have sub-headings) and `pdf_title:` for a shorter title in the PDF.
+`only: pdf` does the same in the other direction, or a bullet can provide both `pdf:` and
+`web:` text variants. Experience groups also support `pdf_heading:` for a tighter PDF
+sub-heading, bullets support restrained `**bold**` emphasis, and education notes use
+`note_only: web` / `note_only: pdf`. A role can use `bullets:` directly (no `groups:` wrapper
+needed unless you have sub-headings) and `pdf_title:` for a shorter title in the PDF.
 
 ## ATS & style checks
 
 Run `.venv/bin/python build.py --lint` (also run automatically by `publish.sh`) for
 advisory warnings on:
 - Long YAML lines (> 110 chars), long bullets (> 30 words), > 6 PDF bullets in one role, and duplicate skills.
-- PDF text extraction (via macOS PDFKit): confirms `Finite Element Analysis`, email, phone, visible LinkedIn/GitHub URLs, section headings, clean ASCII/punctuation, and expanded domain acronyms.
+- PDF text extraction (via macOS PDFKit): confirms `Finite Element Analysis`, email, phone, visible LinkedIn/GitHub URLs, section headings, clean ASCII/punctuation, expanded domain acronyms, inline Education GPAs (no column detachment), and clean section separation between Education and Additional.
 
 ## Requirements
 

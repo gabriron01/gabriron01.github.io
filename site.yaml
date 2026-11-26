@@ -26,10 +26,6 @@ pdf:
   max_pages: 1
 
 seo:
-  alumni_of:
-    - Texas A&M University
-    - University of Nebraska-Lincoln
-    - Kyung Hee University
   keywords: [
     Gabriel Nsengiyumva, Structural FEA Engineer, Cloud CAE Architect,
     HPC Platform Architect, Computational Solid Mechanics, SIMULIA Abaqus,

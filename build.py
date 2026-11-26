@@ -165,7 +165,11 @@ def validate(d):
                 fail(f"experience #{r} group #{g}: no bullets")
             for b, bullet in enumerate(grp["bullets"], 1):
                 check_only(bullet, f"experience #{r} group #{g} bullet #{b}")
-                if not text_of(bullet).strip():
+                if isinstance(bullet, dict) and ("pdf" in bullet or "web" in bullet):
+                    for key in ("pdf", "web"):
+                        if key in bullet and not str(bullet[key] or "").strip():
+                            fail(f"experience #{r} group #{g} bullet #{b}.{key} is empty")
+                elif not text_of(bullet).strip():
                     fail(f"experience #{r} group #{g} bullet #{b} is empty")
 
     if not isinstance(d["skills"], (list, dict)) or not d["skills"]:
@@ -182,14 +186,30 @@ def validate(d):
         if e.get("note_only") not in (None, "web", "pdf"):
             fail(f"education {e.get('degree')}: 'note_only' must be 'web' or 'pdf'")
 
+    for key in ("languages", "interests"):
+        if key in d and d[key] is not None:
+            check_only(d[key], key)
+            if not text_of(d[key]).strip():
+                fail(f"'{key}' is empty")
 
-def text_of(item):
-    return item["text"] if isinstance(item, dict) else item
+
+def text_of(item, target=None):
+    if isinstance(item, dict):
+        if target and item.get(target) is not None:
+            return str(item[target])
+        if item.get("text") is not None:
+            return str(item["text"])
+        return str(item.get("pdf") or item.get("web") or "")
+    return str(item)
 
 
 def visible(item, target):
-    only = item.get("only") if isinstance(item, dict) else None
-    return only in (None, target)
+    if isinstance(item, dict):
+        if item.get("only") is not None:
+            return item["only"] == target
+        if ("pdf" in item or "web" in item) and "text" not in item:
+            return bool(item.get(target))
+    return True
 
 
 def groups_for(role, target):
@@ -197,9 +217,10 @@ def groups_for(role, target):
     for grp in raw_groups(role):
         if not visible(grp, target):
             continue
-        bullets = [text_of(b) for b in grp["bullets"] if visible(b, target)]
+        bullets = [text_of(b, target) for b in grp["bullets"] if visible(b, target)]
         if bullets:
-            out.append({"heading": grp.get("heading"), "bullets": bullets})
+            heading = grp.get("pdf_heading") if (target == "pdf" and grp.get("pdf_heading")) else grp.get("heading")
+            out.append({"heading": heading, "bullets": bullets})
     return out
 
 
@@ -207,9 +228,29 @@ def roles_for(d, target):
     return [r for r in d["experience"] if visible(r, target) and groups_for(r, target)]
 
 
+# --------------------------------------------------------------------------- inline markup
+BOLD_RE = re.compile(r"\*\*(.+?)\*\*")
+
+
+def strip_md(s):
+    return BOLD_RE.sub(r"\1", str(s))
+
+
 # --------------------------------------------------------------------------- HTML
 def esc(s):
     return html.escape(str(s), quote=False)
+
+
+def html_rich(s):
+    parts = []
+    pos = 0
+    s = str(s)
+    for m in BOLD_RE.finditer(s):
+        parts.append(esc(s[pos:m.start()]))
+        parts.append(f"<strong>{esc(m.group(1))}</strong>")
+        pos = m.end()
+    parts.append(esc(s[pos:]))
+    return "".join(parts)
 
 
 def attr(s):
@@ -325,7 +366,7 @@ def render_html(d):
             if grp["heading"]:
                 exp += ["", f'      <div class="substream">{esc(grp["heading"])}</div>']
             exp.append("      <ul>")
-            exp += [f"        <li>{esc(b)}</li>" for b in grp["bullets"]]
+            exp += [f"        <li>{html_rich(b)}</li>" for b in grp["bullets"]]
             exp.append("      </ul>")
         if i < len(roles) - 1:
             exp.append("")
@@ -333,11 +374,11 @@ def render_html(d):
 
     # Skills
     skills = ["    <section>", "      <h2>Technical Skills</h2>", "      <ul>"]
-    skills += [f"        <li>{esc(s['label'])}: {esc(s['text'])}</li>"
+    skills += [f"        <li><strong>{esc(s['label'])}:</strong> {esc(s['text'])}</li>"
                for s in skill_items(d) if visible(s, "web")]
     skills += ["      </ul>", "    </section>"]
 
-    # Education (+ languages, interests)
+    # Education
     edu = ["    <section>", "      <h2>Education</h2>", "      <ul>"]
     for e in d["education"]:
         if not visible(e, "web"):
@@ -348,15 +389,21 @@ def render_html(d):
             edu.append(f'            <span class="edu-gpa">GPA: {esc(e["gpa"])}</span>')
         edu.append("          </div>")
         if e.get("note") and e.get("note_only") in (None, "web"):
-            edu.append(f'          <div class="edu-note">{esc(e["note"])}</div>')
+            edu.append(f'          <div class="edu-note">{html_rich(e["note"])}</div>')
         edu.append("        </li>")
-    edu.append(f"        <li>Languages: {esc(d['languages'])}</li>")
-    if d.get("interests"):
-        edu.append(f"        <li>Interests: {esc(d['interests'])}</li>")
     edu += ["      </ul>", "    </section>"]
 
+    # Additional (Languages, Interests)
+    add_items = []
+    if visible(d["languages"], "web"):
+        add_items.append(f"        <li><strong>Languages:</strong> {esc(text_of(d['languages'], 'web'))}</li>")
+    if d.get("interests") and visible(d["interests"], "web"):
+        add_items.append(f"        <li><strong>Interests:</strong> {esc(text_of(d['interests'], 'web'))}</li>")
+    additional = (["", "    <section>", "      <h2>Additional</h2>", "      <ul>"] +
+                  add_items + ["      </ul>", "    </section>"]) if add_items else []
+
     body = ["<body>", '  <main class="page">'] + nav + [""] + header + [""] + exp + [""] + \
-           skills + [""] + edu + ["  </main>", "</body>", "</html>"]
+           skills + [""] + edu + additional + ["  </main>", "</body>", "</html>"]
     return head + "\n".join(body) + "\n"
 
 
@@ -367,6 +414,23 @@ TEX_MAP = {"\\": r"\textbackslash{}", "&": r"\&", "%": r"\%", "$": r"\$", "#": r
 
 def tex(s):
     return "".join(TEX_MAP.get(ch, ch) for ch in str(s))
+
+
+def _protect_units(tex_str):
+    # Keep numbers joined to short units (e.g. "140+ TB", "4K GPU") across line wraps.
+    return re.sub(r"(\d+[+K]?)\s+(TB|GB|MB|PB|GPU|core|cores)\b", r"\1~\2", tex_str)
+
+
+def tex_rich(s):
+    parts = []
+    pos = 0
+    s = str(s)
+    for m in BOLD_RE.finditer(s):
+        parts.append(_protect_units(tex(s[pos:m.start()])))
+        parts.append(rf"\textbf{{{_protect_units(tex(m.group(1)))}}}")
+        pos = m.end()
+    parts.append(_protect_units(tex(s[pos:])))
+    return "".join(parts)
 
 
 def tex_url(u):
@@ -405,11 +469,11 @@ def render_tex(d, pt):
             if grp["heading"]:
                 out.append(rf"\subhead{{{tex(grp['heading'])}}}")
             out.append(r"\begin{itemize}")
-            out += [rf"  \item {tex(b)}" for b in grp["bullets"]]
+            out += [rf"  \item {tex_rich(b)}" for b in grp["bullets"]]
             out.append(r"\end{itemize}")
 
     out += [r"\section*{Technical Skills}", r"\begin{itemize}"]
-    out += [rf"  \item \textbf{{{tex(s['label'])}:}} {tex(s['text'])}"
+    out += [rf"  \item \textbf{{{tex(s['label'])}:}} {_protect_units(tex(s['text']))}"
             for s in skill_items(d) if visible(s, "pdf")]
     out.append(r"\end{itemize}")
 
@@ -417,16 +481,21 @@ def render_tex(d, pt):
     for e in d["education"]:
         if not visible(e, "pdf"):
             continue
-        line = rf"  \item \textbf{{{tex(e['degree'])}}} \textbar\ {tex(e['school'])}"
+        line = rf"  \item \textbf{{{tex(e['degree'])}}}, {tex(e['school'])}"
         if e.get("gpa"):
-            line += rf" \hfill \textit{{GPA: {tex(e['gpa'])}}}"
+            line += rf" --- \textit{{GPA: {tex(e['gpa'])}}}"
         out.append(line)
         if e.get("note") and e.get("note_only") in (None, "pdf"):
-            out.append(rf"  \\ {{\small \textit{{{tex(e['note'])}}}}}")
-    out.append(rf"  \item \textbf{{Languages:}} {tex(d['languages'])}")
-    if d.get("interests"):
-        out.append(rf"  \item \textbf{{Interests:}} {tex(d['interests'])}")
+            out.append(rf"  \\ {{\small \textit{{{tex_rich(e['note'])}}}}}")
     out.append(r"\end{itemize}")
+
+    add_pdf = []
+    if visible(d["languages"], "pdf"):
+        add_pdf.append(rf"  \item \textbf{{Languages:}} {tex(text_of(d['languages'], 'pdf'))}")
+    if d.get("interests") and visible(d["interests"], "pdf"):
+        add_pdf.append(rf"  \item \textbf{{Interests:}} {tex(text_of(d['interests'], 'pdf'))}")
+    if add_pdf:
+        out += [r"\section*{Additional}", r"\begin{itemize}"] + add_pdf + [r"\end{itemize}"]
 
     lead = lambda x: f"{x * 1.18:.2f}"
     tmpl = (ROOT / "templates" / "resume.tex.in").read_text(encoding="utf-8")
@@ -529,15 +598,22 @@ def run_lint(d):
 
     # 2. Bullet length & bullets per role
     for role in d["experience"]:
-        all_bullets = [text_of(b) for grp in raw_groups(role) for b in grp["bullets"]]
-        if len(all_bullets) > 6:
-            pdf_count = sum(len(g["bullets"]) for g in groups_for(role, "pdf"))
-            if pdf_count > 6:
-                warnings.append(f"[style] {role['org']}: {pdf_count} bullets in PDF (recommended <= 6)")
-        for b in all_bullets:
-            words = len(b.split())
-            if words > 30:
-                warnings.append(f"[style] {role['org']}: bullet has {words} words (> 30): {b[:60]}...")
+        pdf_count = sum(len(g["bullets"]) for g in groups_for(role, "pdf"))
+        if pdf_count > 6:
+            warnings.append(f"[style] {role['org']}: {pdf_count} bullets in PDF (recommended <= 6)")
+        for grp in raw_groups(role):
+            for b in grp["bullets"]:
+                variants = ([("pdf", b["pdf"]), ("web", b["web"])]
+                            if isinstance(b, dict) and ("pdf" in b or "web" in b)
+                            else [(None, text_of(b))])
+                for tag, raw in variants:
+                    if not raw:
+                        continue
+                    plain = strip_md(raw)
+                    words = len(plain.split())
+                    if words > 30:
+                        suffix = f" ({tag})" if tag else ""
+                        warnings.append(f"[style] {role['org']}{suffix}: bullet has {words} words (> 30): {plain[:60]}...")
 
     # 3. Duplicate skill tokens
     seen = {}
@@ -577,9 +653,28 @@ def run_lint(d):
         if "linkedin.com/in/" not in flat_low:
             warnings.append("[ats] PDF text has no visible LinkedIn URL (linkedin.com/in/...)")
 
-        odd_chars = sorted({(ch, hex(ord(ch))) for ch in pdf_text if ord(ch) > 127 and ch not in ("–", "•")})
+        odd_chars = sorted({(ch, hex(ord(ch))) for ch in pdf_text if ord(ch) > 127 and ch not in ("–", "—", "•")})
         if odd_chars:
             warnings.append(f"[ats] unexpected non-ASCII glyph(s) in PDF text: {odd_chars}")
+
+        if re.search(r"\|[A-Za-z0-9]", flat):
+            warnings.append("[ats] PDF text has a pipe '|' glued directly to a following token")
+
+        # 4b. Verify Education GPAs stay attached on the same line as their school
+        pdf_lines = [ln.strip() for ln in pdf_text.splitlines() if ln.strip()]
+        for e in d["education"]:
+            if visible(e, "pdf") and e.get("gpa"):
+                school, gpa = e["school"], str(e["gpa"])
+                if not any(school in ln and gpa in ln for ln in pdf_lines):
+                    warnings.append(f"[ats] Education GPA ({gpa}) detached from '{school}' in PDF text")
+
+        # 4c. Verify Languages/Interests are not nested inside the Education block
+        if "Education" in pdf_lines:
+            edu_idx = pdf_lines.index("Education")
+            end_idx = pdf_lines.index("Additional") if "Additional" in pdf_lines[edu_idx + 1:] else len(pdf_lines)
+            edu_block = " ".join(pdf_lines[edu_idx + 1:end_idx])
+            if "Languages:" in edu_block or "Interests:" in edu_block:
+                warnings.append("[ats] Languages/Interests appear inside the Education section in PDF text")
 
         # 5. Acronym expansion checks on the PDF text
         for acr, expanded in TRACKED_ACRONYMS.items():

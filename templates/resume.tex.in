@@ -1,10 +1,13 @@
 % Generated from resume.yaml + site.yaml by build.py -- do not edit build/resume.tex; edit this template instead.
 \documentclass[10pt,letterpaper]{article}
 
+\input{glyphtounicode}
+\pdfgentounicode=1
+
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{mathptmx} % Times / Nimbus Roman
-\usepackage[left=0.48in, right=0.48in, top=0.40in, bottom=0.40in]{geometry}
+\usepackage[left=0.48in, right=0.48in, top=0.44in, bottom=0.44in]{geometry}
 \usepackage{enumitem}
 \usepackage{titlesec}
 \usepackage[hidelinks,pdftitle={@@PDFTITLE@@},pdfauthor={@@PDFAUTHOR@@}]{hyperref}
@@ -45,10 +48,11 @@
   topsep=1.5pt
 }
 
-% Role header: Org, Place | Title ............ Dates (ATS-clean: title next to dates, org next to place)
+% Role header (2-line ATS-clean): Title ............ Dates / Org, Place
 \newcommand{\roleheader}[4]{%
-  \vspace{2pt}
-  \noindent\textbf{#1}, \textit{#3} \textbar\ \textbf{#2} \hfill \textit{#4}\par
+  \vspace{3pt}
+  \noindent\textbf{#2} \hfill \textit{#4}\par
+  \noindent\textbf{#1}, \textit{#3}\par
   \vspace{1pt}
 }
 
