@@ -1,13 +1,11 @@
-# local tooling / build output (never published)
-.venv/
-build/
-__pycache__/
-.DS_Store
-
-# stray LaTeX artifacts
+# Local LaTeX & build artifacts (GitHub Actions builds the live PDF & HTML)
 *.aux
 *.log
 *.fls
 *.fdb_latexmk
 *.synctex.gz
 *.out
+resume.pdf
+_site/
+_build/
+.DS_Store

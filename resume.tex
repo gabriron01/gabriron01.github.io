@@ -1,0 +1,135 @@
+% =============================================================================
+% resume.tex -- THE ONLY FILE YOU EDIT.
+%
+% Save and push (from VS Code or right on GitHub.com).
+% GitHub Actions automatically compiles the PDF and updates gabriron01.github.io.
+% =============================================================================
+\documentclass[10pt,letterpaper]{article}
+
+\input{glyphtounicode}
+\pdfgentounicode=1
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx} % Times / Nimbus Roman
+\usepackage[left=0.48in, right=0.48in, top=0.44in, bottom=0.44in]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks,
+  pdftitle={Gabriel Nsengiyumva, Ph.D. - Structural FEA Engineer and Cloud CAE/HPC Platform Architect},
+  pdfauthor={Gabriel Nsengiyumva, Ph.D.}
+]{hyperref}
+\usepackage{xcolor}
+
+% Clean typography & layout
+\pagenumbering{gobble}
+\setlength{\parindent}{0pt}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\emergencystretch=3em
+
+\definecolor{rulecolor}{HTML}{333333}
+
+% Section headings with thin horizontal rule
+\titleformat{\section}
+  {\large\bfseries\raggedright}
+  {}{0em}
+  {}
+  [\vspace{-0.55em}\textcolor{rulecolor}{\rule{\textwidth}{0.6pt}}\vspace{-0.15em}]
+\titlespacing*{\section}{0pt}{5pt}{3pt}
+
+% Compact bullet lists
+\setlist[itemize]{
+  leftmargin=0.16in,
+  labelsep=0.07in,
+  itemsep=1.8pt,
+  parsep=0pt,
+  topsep=1.5pt
+}
+
+% Header & role helpers (also parsed automatically to build the website)
+\newcommand{\name}[1]{{\LARGE \textbf{#1}}\par\vspace{2.5pt}}
+\newcommand{\subtitle}[1]{{\normalsize \textbf{#1}}\par\vspace{2pt}}
+\newcommand{\contact}[1]{{\small \textit{#1}}\par\vspace{1pt}}
+\newcommand{\summary}[1]{\vspace{2pt}{\normalsize #1}\par}
+
+% Role header (2-line ATS-clean): Title ............ Dates / Org, Place
+\newcommand{\roleheader}[4]{%
+  \vspace{3pt}
+  \noindent\textbf{#2} \hfill \textit{#4}\par
+  \noindent\textbf{#1}, \textit{#3}\par
+  \vspace{1pt}
+}
+
+% Italic sub-heading inside a role
+\newcommand{\subhead}[1]{%
+  \vspace{1.5pt}\noindent\textit{#1}\par\vspace{0.5pt}
+}
+
+\begin{document}
+
+% -------------------- HEADER --------------------
+\name{Gabriel Nsengiyumva, Ph.D.}
+\subtitle{Structural FEA Engineer \& Cloud CAE/HPC Platform Architect}
+\contact{San Francisco Bay Area, CA \ $\bullet$ \ \href{mailto:gabriel.nsengiyumva@outlook.com}{gabriel.nsengiyumva@outlook.com} \ $\bullet$ \ 402-686-7954 \ $\bullet$ \ \href{https://gabriron01.github.io/}{gabriron01.github.io}}
+\contact{\href{https://www.linkedin.com/in/gabriel-nsengiyumva/}{linkedin.com/in/gabriel-nsengiyumva} \ $\bullet$ \ \href{https://scholar.google.com/citations?user=mLKBGUMAAAAJ&hl=en}{Google Scholar} \ $\bullet$ \ \href{https://github.com/gabriron01}{github.com/gabriron01}}
+\summary{Finite Element Analysis (FEA) and computational solid mechanics engineer (10+ years) leading impact, fracture, and electromagnetic validation across consumer wearables and electric vehicles while architecting 2,000+ core cloud HPC platforms.}
+
+% -------------------- EXPERIENCE --------------------
+\section*{Professional Experience}
+
+\roleheader{Google LLC}{Structural FEA Engineer \& Cloud CAE/HPC Platform Architect}{Mountain View, CA}{Jun 2024 -- Present}
+
+\subhead{Structural, Assembly \& Electromagnetic Hardware Validation}
+\begin{itemize}
+  \item Led full-lifecycle explicit drop-impact FEA (18+ orientations), assembly preload, 5-bar hydrostatic sealing, and battery-swell trade-offs across \textbf{four generations of Pixel Watch} (architecture through mass production).
+  \item \textbf{Cleared Design Validation Test (DVT) builds without re-tooling} by resolving enclosure step-height and bio-sensor PCB solder drop failures via nonlinear fastener kinematics FEA and CCB design fixes.
+  \item Brought 3D magnetostatic charger FEA in-house (Ansys Maxwell), \textbf{raising side-charging pull force up to 78\%} across hundreds of design sweeps and establishing global test-to-simulation correlation workflows.
+  \item Built a \textbf{201-model Abaqus} constitutive/cohesive-zone material library, authored 25-point full-system FEA review standards, and delivered cross-divisional fracture models for augmented-reality smart glasses.
+\end{itemize}
+
+\subhead{Cloud CAE / HPC Platform \& Automation}
+\begin{itemize}
+  \item Architected a 2,000+~core GCP CAE/GPU platform (Slurm HA, 15 NVIDIA L4 nodes, 140+~TB NVMe), executing 2,000+ jobs and \textbf{saving \$600K+/yr} (\$12K/yr across 50+ engineers).
+  \item Built a \textbf{Python desktop client} (one-click SSO tunneling, 4K~GPU streaming) plus custom BETA CAE ANSA/Slurm automation.
+\end{itemize}
+
+\roleheader{Tesla, Inc.}{Analysis Engineer, Cybertruck \& New Vehicle Programs}{Fremont, CA}{Mar 2022 -- Jun 2024}
+\begin{itemize}
+  \item Validated \textbf{Cybertruck front-chassis and megacasting FEA} against proving-ground and rig tests, delivering high-cycle fatigue countermeasures and qualifying polymer/adhesive front-end assemblies.
+  \item Executed nonlinear static and dynamic \textbf{full-vehicle, Body-in-White, and rear die-casting FEA} (Abaqus, LS-DYNA), optimizing load paths, fastener layouts, and panel gauges.
+  \item Qualified \textbf{high-voltage battery enclosures and interconnects} via coupled thermo-mechanical and high-cycle fatigue FEA.
+  \item Automated hotspot extraction with \textbf{Python and an interactive BETA CAE META toolbar}, accelerating design reviews.
+\end{itemize}
+
+\roleheader{Texas A\&M University (TEES)}{Postdoctoral Researcher}{College Station, TX}{Jan 2021 -- Mar 2022}
+\begin{itemize}
+  \item Built an automated \textbf{Python/MATLAB inverse FEA framework} coupling Digital Image Correlation (DIC), UTM, and DMA testing with Abaqus Cohesive Zone Modeling for viscoelastic and mixed-mode fracture.
+  \item Simulated interfacial delamination and crack growth in multi-material stacks via \textbf{cohesive zone modeling} and fracture validation.
+\end{itemize}
+
+% -------------------- TECHNICAL SKILLS --------------------
+\section*{Technical Skills}
+\begin{itemize}
+  \item \textbf{Simulation \& Pre/Post:} SIMULIA Abaqus (Explicit, Standard, Python API), LS-DYNA, Ansys Mechanical \& Maxwell (AEDT), Simcenter FloEFD, BETA CAE (ANSA, META), Altair HyperWorks / SimLab, MIDAS Civil
+  \item \textbf{Mechanics \& Lab:} Drop/impact, nonlinear contact, cohesive zone, Weibull B10 fracture, 5-bar sealing, fatigue, thermo-structural, magnetostatics, Digital Image Correlation (DIC), universal testing machine (UTM), dynamic mechanical analysis (DMA)
+  \item \textbf{Cloud HPC \& Scripting:} Python, MATLAB, Google Cloud Platform (GCP), High-Performance Computing (HPC), Computer-Aided Engineering (CAE), Slurm, Linux (RHEL)/Windows admin, 4K~GPU visualization (NVIDIA L4, VirtualGL, Xpra, TurboVNC)
+\end{itemize}
+
+% -------------------- EDUCATION --------------------
+\section*{Education}
+\begin{itemize}
+  \item \textbf{Ph.D. in Civil Engineering (Computational Solid Mechanics)}, Texas A\&M University --- \textit{GPA: 4.0/4.0}
+  \item \textbf{M.S. in Civil Engineering (Structural Mechanics)}, University of Nebraska--Lincoln --- \textit{GPA: 3.81/4.0}
+  \item \textbf{B.E. in Civil Engineering}, Kyung Hee University (South Korea) --- \textit{GPA: 3.5/4.0}
+\end{itemize}
+
+% -------------------- ADDITIONAL --------------------
+\section*{Additional}
+\begin{itemize}
+  \item \textbf{Languages:} English, French, Swahili, Kinyarwanda (Fluent); Korean (Proficient)
+  % Uncomment below if you want Interests shown on both the PDF and website:
+  % \item \textbf{Interests:} Skydiving, Scuba Diving (Advanced), Soccer, Hiking, Bicycling
+\end{itemize}
+
+\end{document}
