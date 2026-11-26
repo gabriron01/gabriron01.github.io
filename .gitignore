@@ -1,0 +1,13 @@
+# local tooling / build output (never published)
+.venv/
+build/
+__pycache__/
+.DS_Store
+
+# stray LaTeX artifacts
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out

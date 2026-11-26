@@ -1,0 +1,63 @@
+% Generated from resume.yaml + site.yaml by build.py -- do not edit build/resume.tex; edit this template instead.
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx} % Times / Nimbus Roman
+\usepackage[left=0.48in, right=0.48in, top=0.40in, bottom=0.40in]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks,pdftitle={@@PDFTITLE@@},pdfauthor={@@PDFAUTHOR@@}]{hyperref}
+\usepackage{xcolor}
+
+% Font sizes are injected by build.py so it can step down until the PDF fits one page
+\makeatletter
+\renewcommand\normalsize{\@setfontsize\normalsize{@@BASE@@}{@@LEAD@@}}
+\renewcommand\small{\@setfontsize\small{@@SMALL@@}{@@SMALLLEAD@@}}
+\renewcommand\large{\@setfontsize\large{@@LARGE@@}{@@LARGELEAD@@}}
+\renewcommand\LARGE{\@setfontsize\LARGE{@@HUGE@@}{@@HUGELEAD@@}}
+\makeatother
+\normalsize
+
+% No page numbers, no paragraph indent, no hyphenation
+\pagenumbering{gobble}
+\setlength{\parindent}{0pt}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\emergencystretch=3em
+
+\definecolor{rulecolor}{HTML}{333333}
+
+% Section headings with a thin rule
+\titleformat{\section}
+  {\large\bfseries\raggedright}
+  {}{0em}
+  {}
+  [\vspace{-0.55em}\textcolor{rulecolor}{\rule{\textwidth}{0.6pt}}\vspace{-0.15em}]
+\titlespacing*{\section}{0pt}{5pt}{3pt}
+
+% Compact lists
+\setlist[itemize]{
+  leftmargin=0.16in,
+  labelsep=0.07in,
+  itemsep=1.8pt,
+  parsep=0pt,
+  topsep=1.5pt
+}
+
+% Role header: Org, Place | Title ............ Dates (ATS-clean: title next to dates, org next to place)
+\newcommand{\roleheader}[4]{%
+  \vspace{2pt}
+  \noindent\textbf{#1}, \textit{#3} \textbar\ \textbf{#2} \hfill \textit{#4}\par
+  \vspace{1pt}
+}
+
+% Italic sub-heading inside a role
+\newcommand{\subhead}[1]{%
+  \vspace{1.5pt}\noindent\textit{#1}\par\vspace{0.5pt}
+}
+
+\begin{document}
+@@BODY@@
+\par\typeout{BUILDINFO pagetotal=\the\pagetotal; textheight=\the\textheight;}
+\end{document}

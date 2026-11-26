@@ -1,0 +1,137 @@
+# resume.yaml -- the content a recruiter reads.
+# Identity, links, PDF and SEO settings live in site.yaml.
+# Edit, then run: ./publish.sh "what changed"
+# Tip: mark any bullet / group / entry with `only: web` or `only: pdf`.
+# Style: one achievement per bullet, <= 30 words, verb first, metrics kept.
+
+summary: >-
+  Computational solid mechanics engineer (finite element analysis, FEA) with
+  10+ years of experience leading impact, fracture, and electromagnetic
+  validation across consumer wearables and electric vehicles while architecting
+  2,000+ core cloud HPC simulation platforms.
+
+experience:
+  - org: Google LLC
+    title: Structural FEA Engineer & Cloud CAE/HPC Platform Architect
+    pdf_title: Structural FEA Engineer & Cloud CAE/HPC Architect
+    place: Mountain View, CA
+    dates: Jun 2024 – Present
+    groups:
+      - heading: Structural, Assembly & Electromagnetic Hardware Validation
+        bullets:
+          - >-
+            Led explicit drop-impact FEA across 18+ orientations, assembly
+            preload, 5-bar hydrostatic sealing, and thermal/battery-swell
+            trade-offs, from architecture through mass production for four
+            generations of Pixel Watch.
+          - >-
+            Resolved enclosure step-height and bio-sensor PCB solder drop
+            failures via nonlinear fastener kinematics FEA, driving Change
+            Control Board design fixes and clearing Design Validation Test
+            (DVT) builds without re-tooling.
+          - >-
+            Transitioned 3D magnetostatic watch-charger simulation in-house
+            (Ansys Maxwell), guiding hundreds of design sweeps that raised
+            side-charging pull force by up to 78%.
+          - >-
+            Established test-to-simulation correlation workflows and trained
+            global hardware teams on magnetic retention validation.
+          - >-
+            Built a 201-model Abaqus constitutive and cohesive-zone material
+            library, authored 25-point full-system FEA review standards, and
+            developed fracture models for augmented-reality smart glasses.
+      - heading: Cloud CAE / HPC Platform, Automation & Technical Leadership
+        bullets:
+          - >-
+            Architected and operated a 2,000+ core Google Cloud CAE/GPU
+            platform (Sapphire Rapids Slurm HA cluster, 15 NVIDIA L4 nodes,
+            140+ TB NVMe) serving 50+ engineers.
+          - >-
+            Ran 2,000+ jobs, saving about $12,000/yr per engineer (over
+            $600K/yr across 50+ engineers).
+          - >-
+            Developed a cross-platform Python desktop client for one-click SSO
+            tunneling and 4K GPU streaming, plus custom BETA CAE ANSA and Slurm
+            automation tools.
+          - only: web
+            text: >-
+              Presented cloud CAE architecture at the 2026 company-wide
+              Multiphysics Summit, moderated technical sessions in 2025,
+              mentored engineering interns, and earned three Peer Bonus awards.
+
+  - org: Tesla, Inc.
+    title: Analysis Engineer, Cybertruck & New Vehicle Programs
+    place: Fremont, CA
+    dates: Mar 2022 – Jun 2024
+    bullets:
+      - >-
+        Validated Cybertruck front-chassis and megacasting FEA models against
+        proving-ground and rig tests, leading structural countermeasures for
+        high-cycle fatigue and qualifying polymer/adhesive front-end
+        assemblies.
+      - >-
+        Executed nonlinear static and dynamic full-vehicle, Body-in-White, and
+        single-piece rear under-body die-casting FEA in Abaqus and LS-DYNA,
+        optimizing load paths, fastener layouts, and panel gauges.
+      - >-
+        Ran coupled thermo-mechanical and high-cycle fatigue FEA on
+        high-voltage battery enclosures and interconnects.
+      - >-
+        Built custom Python scripts and an interactive BETA CAE META toolbar
+        to automate hotspot extraction and accelerate cross-functional design
+        reviews.
+
+  - org: Texas A&M University (TEES)
+    title: Postdoctoral Researcher
+    place: College Station, TX
+    dates: Jan 2021 – Mar 2022
+    bullets:
+      - >-
+        Developed an automated Python and MATLAB inverse FEA–DIC framework
+        coupling Digital Image Correlation (DIC), UTM, and DMA testing with
+        Abaqus Cohesive Zone Modeling to characterize viscoelastic and
+        mixed-mode fracture behavior.
+      - >-
+        Applied cohesive zone modeling and computational fracture mechanics to
+        simulate interfacial delamination and crack evolution in multi-material
+        stacks, validated against fracture tests.
+
+skills:
+  Simulation & Pre/Post: >-
+    Finite Element Analysis (FEA), SIMULIA Abaqus (Explicit, Standard, Python
+    API), LS-DYNA, Ansys Mechanical & Maxwell (AEDT), Simcenter FloEFD, BETA
+    CAE (ANSA, META), Altair HyperWorks / SimLab, MIDAS Civil
+  Mechanics & Lab Testing: >-
+    Explicit drop and impact, nonlinear contact and assembly kinematics,
+    cohesive zone and Weibull B10 fracture, 5-bar sealing, high-cycle fatigue,
+    thermo-structural and magnetostatic coupling, viscoelastic and hyperelastic
+    constitutive modeling, Digital Image Correlation (DIC), universal testing
+    machine (UTM) and dynamic mechanical analysis (DMA) testing
+  Cloud HPC & Scripting: >-
+    Python, MATLAB, Google Cloud Platform (GCP), High-Performance Computing
+    (HPC), Computer-Aided Engineering (CAE) cloud platforms, Slurm Workload
+    Manager, NFS, Abaqus license servers, Linux (RHEL) and Windows server
+    administration, 4K GPU remote visualization (NVIDIA L4, VirtualGL, Xpra,
+    TurboVNC)
+
+education:
+  - degree: Ph.D. in Civil Engineering (Computational Solid Mechanics)
+    school: Texas A&M University
+    gpa: 4.0 / 4.0
+    note: >-
+      Doctoral Researcher; formulated multiscale composite damage models and
+      delivered finite element analysis instruction for 90+ engineering
+      students
+    note_only: web
+  - degree: M.S. in Civil Engineering (Structural Mechanics)
+    school: University of Nebraska–Lincoln
+    gpa: 3.81 / 4.0
+    note: >-
+      Graduate Research & Teaching Assistant; mentored 6 undergraduate
+      researchers to peer-reviewed publications
+  - degree: B.E. in Civil Engineering
+    school: Kyung Hee University (South Korea)
+    gpa: 3.5 / 4.0
+
+languages: English, French, Swahili, Kinyarwanda (Fluent); Korean (Proficient)
+interests: Skydiving, Scuba Diving (Advanced), Soccer, Hiking, Bicycling
