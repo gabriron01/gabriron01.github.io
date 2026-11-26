@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
-"""Convert resume.tex into index.html and sitemap.xml for GitHub Pages.
+"""Convert Gabriel_Nsengiyumva_External_Resume.tex into index.html and sitemap.xml.
 
-Zero external dependencies (Python 3 stdlib only). Run automatically by GitHub Actions;
-can also be invoked locally as:  python3 .github/scripts/tex2html.py resume.tex _site
+Zero external dependencies (Python 3 stdlib only). Reproduces the original 9516aee
+HTML layout, styling, SEO tags, and Schema.org Person JSON-LD directly from LaTeX.
+
+Usage:  python3 .github/scripts/tex2html.py Gabriel_Nsengiyumva_External_Resume.tex <out_dir>
 """
 import datetime
 import html
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -183,6 +186,12 @@ STYLE_CSS = """    * {
       white-space: nowrap;
     }
 
+    .edu-note {
+      font-size: 13.5px;
+      font-style: italic;
+      margin-top: 1px;
+    }
+
     @media print {
       @page {
         size: letter;
@@ -292,7 +301,6 @@ def inline_to_html(s):
             if i + 1 >= n:
                 break
             nxt = s[i + 1]
-            # Single-char escapes
             if nxt in "&%$#_{}":
                 out.append(esc(nxt))
                 i += 2
@@ -305,7 +313,6 @@ def inline_to_html(s):
                 out.append("<br />")
                 i += 2
                 continue
-            # Control word
             m = re.match(r"([a-zA-Z]+)\*?", s[i + 1:])
             if not m:
                 i += 2
@@ -366,7 +373,6 @@ def inline_to_html(s):
             if cmd in ("hfill", "par", "noindent", "small", "normalsize", "large", "LARGE"):
                 i = pos
                 continue
-            # Unknown command with brace arg -> unwrap its text
             if pos < n and s[pos] == "{":
                 arg, pos = read_brace(s, pos)
                 out.append(inline_to_html(arg))
@@ -375,7 +381,6 @@ def inline_to_html(s):
             i = pos
             continue
 
-        # Math fragments like $\bullet$, $\vert$, $>$
         if ch == "$":
             end = s.find("$", i + 1)
             if end != -1:
@@ -418,8 +423,7 @@ def inline_to_html(s):
         out.append(esc(ch))
         i += 1
 
-    res = "".join(out)
-    return re.sub(r"[ \t\n]+", " ", res).strip()
+    return re.sub(r"[ \t\n]+", " ", "".join(out)).strip()
 
 
 def strip_tags(h):
@@ -438,22 +442,40 @@ def pretty_link_label(url, raw_label):
 
 
 def parse_itemize(block):
-    items = []
-    # Split on top-level \item
-    parts = re.split(r"\\item\b", block)
-    for part in parts[1:]:
-        p = skip_optional(part, 0)
-        text = part[p:].strip()
-        if text:
-            items.append(text)
-    return items
+    """Parse \item, \eduitem{text}{gpa}, and \eduitemnote{text}{gpa}{note} entries in order."""
+    entries = []
+    i = 0
+    n = len(block)
+    while i < n:
+        m = re.search(r"\\(eduitemnote|eduitem|item)\b", block[i:])
+        if not m:
+            break
+        cmd = m.group(1)
+        pos = i + m.end()
+        if cmd == "eduitemnote":
+            (text, gpa, note), pos = read_args(block, pos, 3)
+            entries.append({"kind": "edu", "text": text, "gpa": gpa, "note": note})
+            i = pos
+        elif cmd == "eduitem":
+            (text, gpa), pos = read_args(block, pos, 2)
+            entries.append({"kind": "edu", "text": text, "gpa": gpa, "note": ""})
+            i = pos
+        else:
+            pos = skip_optional(block, pos)
+            nxt = re.search(r"\\(eduitemnote|eduitem|item)\b", block[pos:])
+            end = pos + nxt.start() if nxt else n
+            text = block[pos:end].strip()
+            if text:
+                entries.append({"kind": "plain", "text": text})
+            i = end
+    return entries
 
 
 def parse_document(tex_src):
     clean = strip_comments(tex_src)
     m = re.search(r"\\begin\{document\}(.*)\\end\{document\}", clean, re.S)
     if not m:
-        sys.exit("Could not find \\begin{document}...\\end{document} in resume.tex")
+        sys.exit("Could not find \\begin{document}...\\end{document} in LaTeX source")
     body = m.group(1)
 
     doc = {
@@ -553,12 +575,13 @@ def parse_document(tex_src):
             if cmd in ("par", "noindent", "hfill", "newpage", "clearpage"):
                 i = pos
                 continue
-            # Fallback: skip unknown command
             i = pos
             continue
 
-        # Plain paragraph text up to next blank line or command
-        end = re.search(r"\n\s*\n|\\(?:section|roleheader|subhead|begin|name|subtitle|contact|summary)\b", body[i:])
+        end = re.search(
+            r"\n\s*\n|\\(?:section|roleheader|subhead|begin|name|subtitle|contact|summary)\b",
+            body[i:],
+        )
         chunk = body[i:i + end.start()] if end else body[i:]
         i = i + end.start() if end else n
         rendered = inline_to_html(chunk)
@@ -569,7 +592,6 @@ def parse_document(tex_src):
 
 
 def parse_contacts(raw_contacts):
-    """Extract ordered contact HTML items, profile links, email, location, and site URL."""
     items = []
     profiles = []
     email = ""
@@ -577,7 +599,7 @@ def parse_contacts(raw_contacts):
     site_url = SITE_URL
 
     for raw in raw_contacts:
-        pieces = re.split(r"\\?\s*\$\\bullet\$\s*\\?|\s*\\textbullet\s*", raw)
+        pieces = re.split(r"(?:\\[,;\s]|\s)*\$\\bullet\$(?:\\[,;\s]|\s)*|\s*\\textbullet\s*", raw)
         for p in pieces:
             p = p.strip()
             if not p:
@@ -591,7 +613,8 @@ def parse_contacts(raw_contacts):
                     items.append(f'<a href="{attr(url)}">{esc(label)}</a>')
                 elif "github.io" in url.lower():
                     site_url = url if url.endswith("/") else url + "/"
-                    items.append(f'<a href="{attr(url)}" target="_blank" rel="noopener">{esc(label)}</a>')
+                    site_label = re.sub(r"^https?://", "", site_url).rstrip("/")
+                    items.append(f'<a href="{attr(url)}" target="_blank" rel="noopener">{esc(site_label)}</a>')
                 else:
                     short = pretty_link_label(url, label)
                     profiles.append((short, url))
@@ -611,13 +634,11 @@ def render_html(doc):
     summary = strip_tags(doc["summary"])
     contact_items, profiles, email, location, site_url = parse_contacts(doc["contacts"])
 
-    # Split "Gabriel Nsengiyumva, Ph.D." for Schema.org
     if "," in full_name:
         person_name, suffix = [x.strip() for x in full_name.split(",", 1)]
     else:
         person_name, suffix = full_name, ""
 
-    # Derive current org and universities for Schema.org Person
     works_for = ""
     alumni = []
     for sec in doc["sections"]:
@@ -625,15 +646,14 @@ def render_html(doc):
             if blk["type"] == "role" and not works_for:
                 works_for = strip_tags(blk["org"])
             if "education" in strip_tags(sec["title"]).lower() and blk["type"] == "list":
-                for raw_item in blk["items"]:
-                    plain = strip_tags(inline_to_html(raw_item))
-                    # "Degree, School — GPA: ..."
-                    main = re.split(r"\s+[—–-]{1,3}\s+GPA:", plain)[0]
-                    if "," in main:
-                        school = main.rsplit(",", 1)[1].strip()
-                        school = re.sub(r"\s*\([^)]*\)$", "", school).replace("–", "-")
-                        if school:
-                            alumni.append(school)
+                for entry in blk["items"]:
+                    if entry["kind"] == "edu":
+                        plain = strip_tags(inline_to_html(entry["text"]))
+                        if "," in plain:
+                            school = plain.rsplit(",", 1)[1].strip()
+                            school = re.sub(r"\s*\([^)]*\)$", "", school).replace("–", "-")
+                            if school:
+                                alumni.append(school)
 
     loc_m = re.match(r"^(.+?),\s*([A-Z]{2})(?:,\s*([A-Z]{2,}))?$", location)
     address = {
@@ -663,9 +683,9 @@ def render_html(doc):
     )
 
     page_title = f"{full_name} — {subtitle}"
-    og_desc = summary
+    og_desc = re.sub(r"\s+with\s+10\+\s+years\s+of\s+experience\s+", " ", summary)
+    twitter_desc = "Computational solid mechanics engineer & Cloud CAE/HPC Platform Architect."
 
-    # Top nav actions
     nav = [
         '    <nav class="top-actions" aria-label="Links and Downloads">',
         f'      <a href="{attr(PDF_FILENAME)}" download>Download Resume (PDF)</a>',
@@ -681,7 +701,6 @@ def render_html(doc):
         "    </nav>",
     ]
 
-    # Contact line
     contact_lines = [f"        {c} ·" for c in contact_items[:-1]] + (
         [f"        {contact_items[-1]}"] if contact_items else []
     )
@@ -703,7 +722,6 @@ def render_html(doc):
         ]
     )
 
-    # Render sections
     sections_html = []
     for sec in doc["sections"]:
         sec_title_plain = strip_tags(sec["title"])
@@ -725,7 +743,20 @@ def render_html(doc):
                 lines.append(f"      <p>{blk['text']}</p>")
             elif btype == "list":
                 lines.append("      <ul>")
-                for raw_item in blk["items"]:
+                for entry in blk["items"]:
+                    if entry["kind"] == "edu":
+                        lines += [
+                            "        <li>",
+                            '          <div class="edu-row">',
+                            f"            <span>{inline_to_html(entry['text'])}</span>",
+                            f'            <span class="edu-gpa">{inline_to_html(entry["gpa"])}</span>',
+                            "          </div>",
+                        ]
+                        if entry["note"]:
+                            lines.append(f'          <div class="edu-note">{inline_to_html(entry["note"])}</div>')
+                        lines.append("        </li>")
+                        continue
+                    raw_item = entry["text"]
                     if is_edu:
                         gm = re.search(r"(?:---|\\hfill)\s*\\textit\{(GPA:[^}]+)\}\s*$", raw_item)
                         if gm:
@@ -763,7 +794,7 @@ def render_html(doc):
   <meta property="og:url" content="{attr(site_url)}" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="{attr(page_title)}" />
-  <meta name="twitter:description" content="{attr(subtitle)}" />
+  <meta name="twitter:description" content="{attr(twitter_desc)}" />
 
   <!-- Schema.org Person Structured Data for Search Indexing -->
   <script type="application/ld+json">
@@ -787,11 +818,22 @@ def render_html(doc):
 """, site_url
 
 
-def render_sitemap(site_url):
+def sitemap_lastmod(src_path):
     today = datetime.date.today().isoformat()
+    try:
+        out = subprocess.run(
+            ["git", "log", "-1", "--format=%cs", "--", str(src_path)],
+            capture_output=True, text=True, cwd=src_path.parent,
+        ).stdout.strip()
+        return out or today
+    except OSError:
+        return today
+
+
+def render_sitemap(site_url, lastmod):
     entries = [(site_url, "1.0"), (site_url + PDF_FILENAME, "0.9")]
     body = "".join(
-        f"  <url>\n    <loc>{esc(loc)}</loc>\n    <lastmod>{today}</lastmod>\n"
+        f"  <url>\n    <loc>{esc(loc)}</loc>\n    <lastmod>{lastmod}</lastmod>\n"
         f"    <changefreq>monthly</changefreq>\n    <priority>{prio}</priority>\n  </url>\n"
         for loc, prio in entries
     )
@@ -806,14 +848,14 @@ def render_sitemap(site_url):
 def main():
     if len(sys.argv) != 3:
         sys.exit("Usage: tex2html.py <resume.tex> <out_dir>")
-    src = Path(sys.argv[1])
+    src = Path(sys.argv[1]).resolve()
     out_dir = Path(sys.argv[2])
     out_dir.mkdir(parents=True, exist_ok=True)
 
     doc = parse_document(src.read_text(encoding="utf-8"))
     html_out, site_url = render_html(doc)
     (out_dir / "index.html").write_text(html_out, encoding="utf-8")
-    (out_dir / "sitemap.xml").write_text(render_sitemap(site_url), encoding="utf-8")
+    (out_dir / "sitemap.xml").write_text(render_sitemap(site_url, sitemap_lastmod(src)), encoding="utf-8")
     print(f"Generated {out_dir / 'index.html'} and {out_dir / 'sitemap.xml'}")
 
 

@@ -1,0 +1,17 @@
+{
+  "latex-workshop.latex.autoBuild.run": "onFileChange",
+  "latex-workshop.latex.outDir": "%DIR%",
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.latex.autoClean.run": "onBuilt",
+  "latex-workshop.latex.clean.fileTypes": [
+    "*.aux",
+    "*.bbl",
+    "*.blg",
+    "*.fls",
+    "*.fdb_latexmk",
+    "*.log",
+    "*.out",
+    "*.toc",
+    "*.synctex(busy)"
+  ]
+}

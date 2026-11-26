@@ -1,11 +1,14 @@
-# Local LaTeX & build artifacts (GitHub Actions builds the live PDF & HTML)
+# LaTeX auxiliary & temporary build files (PDF is tracked)
 *.aux
-*.log
+*.bbl
+*.blg
 *.fls
 *.fdb_latexmk
-*.synctex.gz
+*.log
 *.out
-resume.pdf
+*.toc
+*.synctex.gz
+*.synctex(busy)
 _site/
 _build/
 .DS_Store

@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install TeX Live (minimal)
         run: |
@@ -27,24 +29,38 @@ jobs:
             texlive-latex-base \
             texlive-latex-recommended \
             texlive-fonts-recommended \
-            texlive-latex-extra
+            texlive-latex-extra \
+            tex-gyre
 
-      - name: Compile resume.tex to PDF
+      - name: Compile LaTeX to PDF
         run: |
           mkdir -p _site _build
-          pdflatex -interaction=nonstopmode -halt-on-error -output-directory=_build resume.tex
-          pdflatex -interaction=nonstopmode -halt-on-error -output-directory=_build resume.tex
-          cp _build/resume.pdf _site/Gabriel_Nsengiyumva_External_Resume.pdf
-          pages=$(grep -oE 'Output written on .* \([0-9]+ pages?' _build/resume.log | grep -oE '[0-9]+' | tail -1)
+          pdflatex -interaction=nonstopmode -halt-on-error -output-directory=_build Gabriel_Nsengiyumva_External_Resume.tex
+          pdflatex -interaction=nonstopmode -halt-on-error -output-directory=_build Gabriel_Nsengiyumva_External_Resume.tex
+          cp _build/Gabriel_Nsengiyumva_External_Resume.pdf _site/Gabriel_Nsengiyumva_External_Resume.pdf
+          pages=$(grep -oE 'Output written on .* \([0-9]+ pages?' _build/Gabriel_Nsengiyumva_External_Resume.log | grep -oE '[0-9]+' | tail -1)
           echo "PDF compiled: ${pages} page(s)" >> "$GITHUB_STEP_SUMMARY"
           if [ "${pages:-1}" -gt 1 ]; then
             echo "::warning::Compiled PDF is ${pages} pages (expected 1 page)."
           fi
 
-      - name: Generate website HTML and sitemap from resume.tex
+      - name: Generate index.html and sitemap.xml from LaTeX
         run: |
-          python3 .github/scripts/tex2html.py resume.tex _site
+          python3 .github/scripts/tex2html.py Gabriel_Nsengiyumva_External_Resume.tex _site
           cp robots.txt _site/
+
+      - name: Sync built files back to main if changed
+        run: |
+          cp _site/Gabriel_Nsengiyumva_External_Resume.pdf Gabriel_Nsengiyumva_External_Resume.pdf
+          cp _site/index.html index.html
+          cp _site/sitemap.xml sitemap.xml
+          if [ -n "$(git status --porcelain Gabriel_Nsengiyumva_External_Resume.pdf index.html sitemap.xml)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add Gabriel_Nsengiyumva_External_Resume.pdf index.html sitemap.xml
+            git commit -m "Update built resume artifacts [skip ci]"
+            git push
+          fi
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3

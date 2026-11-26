@@ -4,9 +4,9 @@ Live site: <https://gabriron01.github.io/> · PDF: [Download Resume](https://gab
 
 ## How to update your resume
 
-1. Edit **`resume.tex`** (in VS Code, or directly in your browser on GitHub.com).
-2. Commit and push to `main`.
+Edit **`Gabriel_Nsengiyumva_External_Resume.tex`** from anywhere:
 
-That's it. GitHub Actions automatically compiles `resume.tex` into the PDF, regenerates the web page, and deploys both to <https://gabriron01.github.io/> in ~1 minute.
+- **In VS Code (Mac):** edit and press `Cmd+S` — LaTeX Workshop automatically compiles `Gabriel_Nsengiyumva_External_Resume.pdf` with a live side-by-side preview. Then commit & Sync to `main`.
+- **From any browser or phone (GitHub.com):** open `Gabriel_Nsengiyumva_External_Resume.tex`, click Edit, and commit to `main`.
 
-*(Optional local PDF preview: run `pdflatex resume.tex && open resume.pdf` — local build files are git-ignored.)*
+On every push to `main`, GitHub Actions automatically compiles `Gabriel_Nsengiyumva_External_Resume.pdf`, regenerates `index.html` and `sitemap.xml` from your LaTeX, deploys to <https://gabriron01.github.io/>, and keeps the built files in sync in the repo.

@@ -1,0 +1,148 @@
+% =============================================================================
+% Gabriel_Nsengiyumva_External_Resume.tex -- THE ONLY FILE YOU EDIT.
+%
+% - On Mac (VS Code): press Cmd+S -> LaTeX Workshop compiles the PDF locally.
+% - Anywhere (GitHub.com browser/phone): edit & commit -> GitHub Actions builds
+%   BOTH the PDF and index.html and deploys to https://gabriron01.github.io/
+% =============================================================================
+\documentclass[9.5pt,letterpaper]{article}
+
+\input{glyphtounicode}
+\pdfgentounicode=1
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\IfFileExists{tgheros.sty}{%
+  \usepackage[scale=0.92]{tgheros}% TeX Gyre Heros (exact Helvetica clone from original PDF)
+}{%
+  \usepackage{lmodern}% Clean sans-serif fallback for BasicTeX without extra installs
+}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[left=0.52in, right=0.52in, top=0.46in, bottom=0.46in]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks,
+  pdftitle={Gabriel Nsengiyumva, Ph.D. - Structural FEA Engineer and Cloud CAE/HPC Platform Architect},
+  pdfauthor={Gabriel Nsengiyumva, Ph.D.}
+]{hyperref}
+\usepackage{xcolor}
+
+% Match original 9516aee Helvetica sizing
+\makeatletter
+\renewcommand\normalsize{\@setfontsize\normalsize{9.2}{11.3}}
+\renewcommand\small{\@setfontsize\small{8.8}{10.8}}
+\renewcommand\large{\@setfontsize\large{10.8}{13.0}}
+\renewcommand\LARGE{\@setfontsize\LARGE{17.5}{20.0}}
+\makeatother
+\normalsize
+
+% No page numbers, no indentation, clean line breaks
+\pagenumbering{gobble}
+\setlength{\parindent}{0pt}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\emergencystretch=3em
+
+\definecolor{rulecolor}{HTML}{000000}
+
+% Section headings with crisp black underline
+\titleformat{\section}
+  {\large\bfseries\raggedright}
+  {}{0em}
+  {}
+  [\vspace{-0.55em}\textcolor{rulecolor}{\rule{\textwidth}{0.7pt}}\vspace{-0.1em}]
+\titlespacing*{\section}{0pt}{8pt}{4.5pt}
+
+% Clean bullet lists
+\setlist[itemize]{
+  label=\raisebox{0.15ex}{\tiny$\bullet$},
+  leftmargin=0.18in,
+  labelsep=0.08in,
+  itemsep=2.6pt,
+  parsep=0pt,
+  topsep=2.5pt
+}
+
+% Header, role, and education helpers (standard LaTeX; also parsed to build index.html)
+\newcommand{\name}[1]{{\LARGE\textbf{#1}}\par\vspace{2.5pt}}
+\newcommand{\subtitle}[1]{{\fontsize{10.0}{12.0}\selectfont #1}\par\vspace{2pt}}
+\newcommand{\contact}[1]{{\small #1}\par\vspace{5pt}}
+\newcommand{\summary}[1]{{\normalsize #1}\par\vspace{1pt}}
+
+\newcommand{\roleheader}[4]{%
+  \vspace{4.5pt}
+  \noindent\textbf{#1 --- #2} \hfill \textit{#3 \textbar\ #4}\par
+  \vspace{1.5pt}
+}
+
+\newcommand{\subhead}[1]{%
+  \vspace{2pt}\noindent\textit{#1}\par\vspace{0.5pt}
+}
+
+\newcommand{\eduitem}[2]{%
+  \item #1 \hfill \textit{#2}
+}
+
+\newcommand{\eduitemnote}[3]{%
+  \item #1 \hfill \textit{#2}\\{\small\textit{#3}}
+}
+
+\begin{document}
+
+% -------------------- HEADER --------------------
+\name{Gabriel Nsengiyumva, Ph.D.}
+\subtitle{Structural FEA Engineer \& Cloud CAE/HPC Platform Architect}
+\contact{San Francisco Bay Area, CA\,$\bullet$\,\href{mailto:gabriel.nsengiyumva@outlook.com}{gabriel.nsengiyumva@outlook.com}\,$\bullet$\,402-686-7954\,$\bullet$\,\href{https://www.linkedin.com/in/gabriel-nsengiyumva/}{LinkedIn}\,$\bullet$\,\href{https://scholar.google.com/citations?user=mLKBGUMAAAAJ&hl=en}{Google Scholar}\,$\bullet$\,\href{https://github.com/gabriron01}{GitHub}\,$\bullet$\,\href{https://gabriron01.github.io/}{gabriron01.github.io}}
+\summary{Computational solid mechanics engineer with 10+ years of experience leading impact, fracture, and electromagnetic validation across consumer wearables and electric vehicles while architecting 2,000+ core cloud HPC simulation platforms.}
+
+% -------------------- EXPERIENCE --------------------
+\section*{Experience}
+
+\roleheader{Google LLC}{Structural FEA Engineer \& Cloud CAE/HPC Platform Architect}{Mountain View, CA}{Jun 2024 -- Present}
+
+\subhead{Structural, Assembly \& Electromagnetic Hardware Validation}
+\begin{itemize}
+  \item Led explicit drop-impact FEA across 18+ orientations, 5-bar hydrostatic sealing, and thermal/battery-swell trade-offs from architecture through mass production for four generations of Pixel Watch.
+  \item Resolved enclosure step-height and bio-sensor PCB solder drop failures via nonlinear fastener kinematics FEA, driving Change Control Board design fixes and clearing DVT builds without re-tooling.
+  \item Transitioned 3D magnetostatic watch-charger simulation in-house in Ansys Maxwell, guiding hundreds of design sweeps to increase side-charging pull force by up to 78\% across global hardware builds.
+  \item Built a 201-model Abaqus constitutive and cohesive-zone material library, authored 25-point full-system FEA review standards, and developed fracture models cross-divisionally for augmented-reality smart glasses.
+\end{itemize}
+
+\subhead{Cloud CAE / HPC Platform, Automation \& Technical Leadership}
+\begin{itemize}
+  \item Architected and operated a 2,000+ core Google Cloud CAE and GPU platform (Sapphire Rapids Slurm HA cluster, 15 NVIDIA L4 nodes, 140+ TB NVMe), executing 2,000+ jobs and saving \textasciitilde{}\$12,000/yr per engineer (>\$600K+/yr across 50+ engineers).
+  \item Developed a cross-platform Python desktop client for one-click SSO tunneling and 4K GPU streaming alongside custom BETA CAE ANSA and Slurm automation tools.
+  \item Presented cloud CAE architecture at the 2026 company-wide Multiphysics Summit, moderated technical sessions in 2025, mentored engineering interns, and earned three Peer Bonus awards.
+\end{itemize}
+
+\roleheader{Tesla, Inc.}{Analysis Engineer, Cybertruck \& New Vehicle Programs}{Fremont, CA}{Mar 2022 -- Jun 2024}
+\begin{itemize}
+  \item Validated Cybertruck front-chassis and megacasting FEA models against proving-ground and rig tests, leading structural countermeasures for high-cycle fatigue and qualifying polymer/adhesive front-end assemblies.
+  \item Executed nonlinear static and dynamic full-vehicle, Body-in-White, and single-piece rear under-body die-casting analyses in Abaqus and LS-DYNA alongside thermo-mechanical evaluations of high-voltage battery enclosures.
+  \item Built custom Python scripts and an interactive BETA CAE META toolbar to automate hotspot extraction and accelerate cross-functional design reviews.
+\end{itemize}
+
+\roleheader{Texas A\&M University (TEES)}{Postdoctoral \& Doctoral Researcher}{College Station, TX}{Jan 2020 -- Mar 2022}
+\begin{itemize}
+  \item Developed an automated Python and MATLAB inverse FEA--DIC framework coupling Digital Image Correlation, UTM, and DMA testing with Abaqus Cohesive Zone Modeling to characterize viscoelastic and mixed-mode fracture behavior.
+  \item Formulated multiscale composite damage models and delivered finite element analysis instruction for 90+ engineering students.
+\end{itemize}
+
+% -------------------- TECHNICAL SKILLS --------------------
+\section*{Technical Skills}
+\begin{itemize}
+  \item Simulation \& Pre/Post: SIMULIA Abaqus (Explicit, Standard, Python API), LS-DYNA, Ansys Mechanical \& Maxwell (AEDT), Simcenter FloEFD, BETA CAE (ANSA, META), Altair HyperWorks / SimLab, MIDAS Civil
+  \item Mechanics \& Lab Testing: Explicit drop and impact, nonlinear contact and assembly kinematics, cohesive zone and Weibull B10 fracture, 5-bar sealing, high-cycle fatigue, magnetostatics, Digital Image Correlation, UTM, DMA
+  \item Cloud HPC \& Scripting: Python, MATLAB, Google Cloud Platform (GCP), Slurm Workload Manager, Linux (RHEL) and Windows server administration, 4K GPU remote visualization (NVIDIA L4, VirtualGL, Xpra, TurboVNC)
+\end{itemize}
+
+% -------------------- EDUCATION --------------------
+\section*{Education}
+\begin{itemize}
+  \eduitem{Ph.D. in Civil Engineering (Computational Solid Mechanics), Texas A\&M University}{GPA: 4.0 / 4.0}
+  \eduitemnote{M.S. in Civil Engineering (Structural Mechanics), University of Nebraska--Lincoln}{GPA: 3.81 / 4.0}{Graduate Research \& Teaching Assistant; mentored 6 undergraduate researchers to peer-reviewed publications}
+  \eduitem{B.E. in Civil Engineering, Kyung Hee University (South Korea)}{GPA: 3.5 / 4.0}
+  \item Languages: English, French, Swahili, Kinyarwanda (Fluent); Korean (Proficient)
+\end{itemize}
+
+\end{document}
