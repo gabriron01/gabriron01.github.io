@@ -18,11 +18,11 @@ PDF_FILENAME = "Gabriel_Nsengiyumva_External_Resume.pdf"
 SITE_URL = "https://gabriron01.github.io/"
 
 SEO_KEYWORDS = [
-    "Gabriel Nsengiyumva", "Structural FEA Engineer", "Cloud CAE Architect",
-    "HPC Platform Architect", "Computational Solid Mechanics", "SIMULIA Abaqus",
-    "LS-DYNA", "Ansys Maxwell", "Magnetostatics", "Cohesive Zone Modeling",
-    "Weibull B10", "Drop Impact", "Google Cloud Platform", "Slurm",
-    "Tesla Cybertruck", "Pixel Watch", "Texas A&M University",
+    "Gabriel Nsengiyumva", "Structural FEA Engineer", "Finite Element Analysis",
+    "Computational Solid Mechanics", "SIMULIA Abaqus", "LS-DYNA", "Ansys Maxwell",
+    "Magnetostatics", "Cohesive Zone Modeling", "Fracture Mechanics", "Drop Impact",
+    "High-Performance Computing", "Google Cloud Platform", "Slurm", "Pixel Watch",
+    "Tesla Cybertruck", "Tesla Cybercab", "Texas A&M University",
 ]
 
 KNOWS_ABOUT = [
@@ -683,8 +683,8 @@ def render_html(doc):
     )
 
     page_title = f"{full_name} — {subtitle}"
-    og_desc = re.sub(r"\s+with\s+10\+\s+years\s+of\s+experience\s+", " ", summary)
-    twitter_desc = "Computational solid mechanics engineer & Cloud CAE/HPC Platform Architect."
+    og_desc = summary
+    twitter_desc = "Structural FEA engineer specializing in hardware drop-impact, fracture, and magnetostatic simulation."
 
     nav = [
         '    <nav class="top-actions" aria-label="Links and Downloads">',
