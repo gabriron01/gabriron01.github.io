@@ -29,7 +29,7 @@ KNOWS_ABOUT = [
     "Finite Element Analysis", "Computational Solid Mechanics",
     "Explicit Drop Impact Simulation", "Nonlinear Contact Mechanics",
     "Fracture Mechanics", "Cohesive Zone Modeling", "3D Magnetostatics",
-    "SIMULIA Abaqus", "LS-DYNA", "Ansys Mechanical and Maxwell",
+    "SIMULIA Abaqus", "LS-DYNA", "Ansys Maxwell",
     "High-Performance Computing", "Slurm Workload Manager", "Google Cloud Platform",
 ]
 

@@ -62,15 +62,14 @@
       "3D Magnetostatics",
       "SIMULIA Abaqus",
       "LS-DYNA",
-      "Ansys Mechanical and Maxwell",
+      "Ansys Maxwell",
       "High-Performance Computing",
       "Slurm Workload Manager",
       "Google Cloud Platform"
     ],
     "sameAs": [
       "https://www.linkedin.com/in/gabriel-nsengiyumva/",
-      "https://scholar.google.com/citations?user=mLKBGUMAAAAJ&hl=en",
-      "https://github.com/gabriron01"
+      "https://scholar.google.com/citations?user=mLKBGUMAAAAJ&hl=en"
     ]
   }
   </script>
@@ -268,8 +267,6 @@
       <span>·</span>
       <a href="https://scholar.google.com/citations?user=mLKBGUMAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a>
       <span>·</span>
-      <a href="https://github.com/gabriron01" target="_blank" rel="noopener">GitHub</a>
-      <span>·</span>
       <button type="button" class="action-btn" onclick="window.print()">Print</button>
     </nav>
 
@@ -282,8 +279,7 @@
         402-686-7954 ·
         <a href="https://gabriron01.github.io/" target="_blank" rel="noopener">gabriron01.github.io</a> ·
         <a href="https://www.linkedin.com/in/gabriel-nsengiyumva/" target="_blank" rel="noopener">LinkedIn</a> ·
-        <a href="https://scholar.google.com/citations?user=mLKBGUMAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a> ·
-        <a href="https://github.com/gabriron01" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://scholar.google.com/citations?user=mLKBGUMAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a>
       </div>
       <p class="summary">
         Structural Finite Element Analysis (FEA) engineer with a Ph.D. in computational solid mechanics and 4+ years at Google and Tesla delivering test-correlated drop-impact, quasistatic, fatigue, and fracture modeling for wearables and electric vehicles.
@@ -298,10 +294,10 @@
         <span class="role-meta">Mountain View, CA | Jun 2024 – Present</span>
       </div>
       <ul>
-        <li>Led explicit drop-impact, hydrostatic sealing, and thermal/battery-swell simulations for Pixel Watch 4 and next-generation wearables, resolving backglass drop failures and bio-sensor-hub assembly risks while expanding to full-system drop modeling.</li>
+        <li>Own full-system drop-risk modeling for next-generation Pixel Watch; executed explicit drop-impact, hydrostatic sealing, and thermal/battery-swell validation from Pixel Watch 4 onward, resolving backglass drop failures and bio-sensor-hub assembly risks.</li>
         <li>Modeled nonlinear fastener kinematics to diagnose enclosure step-height and bio-sensor PCB solder drop failures, driving Change Control Board updates that cleared Design Validation Test (DVT) builds without re-tooling; mentored 2 structural simulation interns.</li>
-        <li>Brought 3D magnetostatic watch-charger modeling in-house (Ansys Maxwell), replacing external vendor cycles for rapid sweeps that increased magnetic force 3x over initial concepts, preventing regression in next-generation Pixel Watches.</li>
-        <li>Architected a Slurm HPC cluster with native/web GUI clients and Python automation (ANSA/META, Ansys, Abaqus) serving the entire Watch Predictive Engineering Methods team, nearly eliminating setup time and halving solve time on modern GCP compute.</li>
+        <li>Brought 3D magnetostatic watch-charger modeling in-house (Ansys Maxwell), cutting simulation turnaround from 2 weeks externally to 1 day internally to enable rapid charger design sweeps.</li>
+        <li>Architected a Slurm HPC cluster with native/web GUI clients and Python automation (ANSA/META, Ansys, Abaqus) serving the entire Watch Predictive Engineering Methods team, nearly eliminating job-setup overhead and halving solve time by migrating workloads to modern GCP compute.</li>
       </ul>
 
       <div class="role-header">
@@ -309,9 +305,9 @@
         <span class="role-meta">Fremont, CA | Mar 2022 – Jun 2024</span>
       </div>
       <ul>
-        <li>Correlated Cybertruck front-chassis and megacasting FEA to rig tests within 10% on quasistatic peak force (90–100% target, avoiding over-engineering), earning an org-wide award from Tesla's VP of Vehicle Engineering and delivering high-cycle fatigue fixes.</li>
-        <li>Optimized front underbody rib geometry for a next-generation EV platform with Materials and Product Design teams, improving structural stiffness and fatigue life.</li>
-        <li>Executed nonlinear full-vehicle, Body-in-White, rear underbody die-casting, and coupled thermo-mechanical high-voltage battery enclosure simulations (Abaqus, LS-DYNA) to validate polymer/adhesive front-end assemblies.</li>
+        <li>Validated Cybertruck front-chassis and megacasting FEA against physical rig tests, achieving conservative quasistatic peak-force predictions within 90–100% of measured test force (no over-prediction) and earning an org-wide award from Tesla's VP of Vehicle Engineering.</li>
+        <li>Optimized front underbody rib geometry for a next-generation EV platform with Materials and Product Design teams, balancing mass, low- and high-cycle fatigue life, and quasistatic strength/durability targets.</li>
+        <li>Executed nonlinear full-vehicle, Body-in-White, rear underbody die-casting, coupled thermo-mechanical HV battery enclosure, and polymer/adhesive front-end assembly simulations (Abaqus, LS-DYNA).</li>
       </ul>
 
       <div class="role-header">
@@ -319,7 +315,7 @@
         <span class="role-meta">College Station, TX | Jan 2021 – Mar 2022</span>
       </div>
       <ul>
-        <li>Built an automated Python/MATLAB inverse FEA–DIC framework pairing experimental DIC, UTM, and DMA testing with Abaqus cohesive-zone modeling to identify viscoelastic and mixed-mode fracture properties (<em>Experimental Mechanics</em>, 2022).</li>
+        <li>Built an automated Python/MATLAB inverse FEA–DIC framework (Nelder–Mead optimization) pairing DIC, UTM, and DMA tests with Abaqus cohesive-zone modeling to identify PEEK elastic, viscoelastic relaxation, and mixed-mode fracture properties (<em>Experimental Mechanics</em>, 2022).</li>
       </ul>
 
       <div class="role-header">
@@ -335,8 +331,8 @@
     <section>
       <h2>Technical Skills</h2>
       <ul>
-        <li><strong>Simulation &amp; Pre/Post:</strong> Finite Element Analysis (FEA), SIMULIA Abaqus (Explicit, Standard, Python API), LS-DYNA, Ansys Mechanical &amp; Maxwell (AEDT), Simcenter FloEFD, BETA CAE (ANSA, META), Altair HyperWorks / SimLab</li>
-        <li><strong>Mechanics &amp; Experimental Validation:</strong> Explicit drop and impact, nonlinear contact and fastener kinematics, cohesive-zone fracture, hydrostatic sealing, high-cycle fatigue, coupled thermo-mechanical analysis, 3D magnetostatics, Digital Image Correlation (DIC), UTM, DMA, SCB fracture testing, nanoindentation, rig correlation</li>
+        <li><strong>Simulation &amp; Pre/Post:</strong> Finite Element Analysis (FEA), SIMULIA Abaqus (Explicit, Standard, Python API), LS-DYNA, Ansys Maxwell (AEDT), BETA CAE (ANSA, META)</li>
+        <li><strong>Mechanics &amp; Experimental Validation:</strong> Explicit drop and impact, nonlinear contact and fastener kinematics, cohesive-zone fracture, hydrostatic sealing, low- and high-cycle fatigue, coupled thermo-mechanical analysis, 3D magnetostatics, Digital Image Correlation (DIC), Universal Testing Machine (UTM), Dynamic Mechanical Analysis (DMA), SCB fracture testing, nanoindentation, rig correlation</li>
         <li><strong>Automation &amp; HPC:</strong> Python (CAE scripting), MATLAB, Computer-Aided Engineering (CAE), High-Performance Computing (HPC), Slurm Workload Manager, Google Cloud Platform (GCP), Linux (RHEL)</li>
       </ul>
     </section>
@@ -368,8 +364,8 @@
     <section>
       <h2>Publications &amp; Honors</h2>
       <ul>
-        <li><strong>Publications:</strong> 9 peer-reviewed journal articles (5 first-author, 425 citations) across <em>Experimental Mechanics</em>, <em>Journal of Engineering Mechanics</em>, <em>Construction and Building Materials</em>, and <em>Journal of Testing and Evaluation</em>.</li>
-        <li><strong>Honors &amp; Service:</strong> 2nd Place, 2020 ASCE-EMI Student Paper Competition (inverse viscoelastic FEA); Outstanding Master Thesis Award (UNL, 2015); Peer Reviewer for 8 mechanics and materials journals (ASCE, ASTM, Elsevier).</li>
+        <li><strong>Publications:</strong> 9 peer-reviewed journal articles (5 first-author; 24 total publications, 425 citations) across <em>Experimental Mechanics</em>, <em>Journal of Engineering Mechanics</em>, <em>Construction and Building Materials</em>, and <em>Journal of Testing and Evaluation</em>.</li>
+        <li><strong>Honors &amp; Service:</strong> 2nd Place, 2020 ASCE-EMI Student Paper Competition (nanoindentation viscoelastic FEA); Outstanding Master Thesis Award (UNL, 2015); Peer Reviewer for 8 mechanics and materials journals (ASCE, ASTM, Elsevier).</li>
       </ul>
     </section>
   </main>
