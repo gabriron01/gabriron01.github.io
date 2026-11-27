@@ -22,7 +22,7 @@ SEO_KEYWORDS = [
     "Computational Solid Mechanics", "SIMULIA Abaqus", "LS-DYNA", "Ansys Maxwell",
     "Magnetostatics", "Cohesive Zone Modeling", "Fracture Mechanics", "Drop Impact",
     "High-Performance Computing", "Google Cloud Platform", "Slurm", "Pixel Watch",
-    "Tesla Cybertruck", "Tesla Cybercab", "Texas A&M University",
+    "Tesla Cybertruck", "Texas A&M University",
 ]
 
 KNOWS_ABOUT = [
@@ -599,7 +599,10 @@ def parse_contacts(raw_contacts):
     site_url = SITE_URL
 
     for raw in raw_contacts:
-        pieces = re.split(r"(?:\\[,;\s]|\s)*\$\\bullet\$(?:\\[,;\s]|\s)*|\s*\\textbullet\s*", raw)
+        pieces = re.split(
+            r"(?:\\(?:enspace|quad|[,;\s])|\s)*(?:\$\\bullet\$|\\textbullet)(?:\\(?:enspace|quad|[,;\s])|\s)*",
+            raw,
+        )
         for p in pieces:
             p = p.strip()
             if not p:

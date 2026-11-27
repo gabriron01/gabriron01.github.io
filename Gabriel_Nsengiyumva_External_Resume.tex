@@ -18,7 +18,7 @@
   \usepackage{lmodern}% Clean sans-serif fallback for BasicTeX without extra installs
 }
 \renewcommand{\familydefault}{\sfdefault}
-\usepackage[left=0.52in, right=0.52in, top=0.42in, bottom=0.42in]{geometry}
+\usepackage[left=0.52in, right=0.52in, top=0.45in, bottom=0.42in]{geometry}
 \usepackage{enumitem}
 \usepackage{titlesec}
 \usepackage[hidelinks,
@@ -51,7 +51,7 @@
   {}{0em}
   {}
   [\vspace{-0.55em}\textcolor{rulecolor}{\rule{\textwidth}{0.7pt}}\vspace{-0.1em}]
-\titlespacing*{\section}{0pt}{6pt}{4pt}
+\titlespacing*{\section}{0pt}{5pt}{3pt}
 
 % Clean bullet lists
 \setlist[itemize]{
@@ -61,21 +61,21 @@
   labelsep=0.08in,
   itemsep=2pt,
   parsep=0pt,
-  topsep=2pt
+  topsep=1.8pt
 }
 
 % Header, role, and education helpers (standard LaTeX; also parsed to build index.html)
-\newcommand{\name}[1]{{\LARGE\textbf{#1}}\par\vspace{2.5pt}}
-\newcommand{\subtitle}[1]{{\fontsize{10.0}{12.0}\selectfont #1}\par\vspace{2pt}}
-\newcommand{\contact}[1]{{\small #1}\par\vspace{2pt}}
-\newcommand{\summary}[1]{\vspace{3pt}{\normalsize #1}\par\vspace{1pt}}
+\newcommand{\name}[1]{{\LARGE\textbf{#1}}\par\vspace{2pt}}
+\newcommand{\subtitle}[1]{{\fontsize{10.0}{12.0}\selectfont #1}\par\vspace{1.5pt}}
+\newcommand{\contact}[1]{{\small #1}\par\vspace{1.5pt}}
+\newcommand{\summary}[1]{\vspace{2.5pt}{\normalsize #1}\par\vspace{1pt}}
 
-% Role header, two lines (ATS-friendly): Title ........ Dates  /  Company, Location
+% Role header, two lines (ATS-friendly): Company ........ Dates  /  Title ........ Location
 \newcommand{\roleheader}[4]{%
-  \vspace{4.5pt}
-  \noindent\textbf{#2} \hfill \textit{#4}\par
-  \noindent\textbf{#1}, \textit{#3}\par
-  \vspace{1.5pt}
+  \vspace{3.5pt}
+  \noindent\textbf{#1} \hfill \textit{#4}\par
+  \noindent\textbf{#2} \hfill \textit{#3}\par
+  \vspace{1.2pt}
 }
 
 \newcommand{\subhead}[1]{%
@@ -92,63 +92,60 @@
 % -------------------- HEADER --------------------
 \name{Gabriel Nsengiyumva, Ph.D.}
 \subtitle{Structural FEA Engineer}
-\contact{San Francisco Bay Area, CA\ $\bullet$\ \href{mailto:gabriel.nsengiyumva@outlook.com}{gabriel.nsengiyumva@outlook.com}\ $\bullet$\ 402-686-7954\ $\bullet$\ \href{https://gabriron01.github.io/}{gabriron01.github.io}}
-\contact{\href{https://www.linkedin.com/in/gabriel-nsengiyumva/}{linkedin.com/in/gabriel-nsengiyumva}\ \ $\bullet$\ \href{https://scholar.google.com/citations?user=mLKBGUMAAAAJ&hl=en}{Google Scholar}\ $\bullet$\ \href{https://github.com/gabriron01}{github.com/gabriron01}}
-\summary{Structural Finite Element Analysis (FEA) and computational solid mechanics engineer with 5+ years of post-Ph.D. experience leading impact, fracture, and magnetostatic hardware validation for wearables and electric vehicles while building cloud HPC infrastructure.}
+\contact{San Francisco Bay Area, CA\enspace$\bullet$\enspace\href{mailto:gabriel.nsengiyumva@outlook.com}{gabriel.nsengiyumva@outlook.com}\enspace$\bullet$\enspace 402-686-7954\enspace$\bullet$\enspace\href{https://gabriron01.github.io/}{gabriron01.github.io}}
+\contact{\href{https://www.linkedin.com/in/gabriel-nsengiyumva/}{linkedin.com/in/gabriel-nsengiyumva}\enspace$\bullet$\enspace\href{https://scholar.google.com/citations?user=mLKBGUMAAAAJ&hl=en}{Google Scholar}\enspace$\bullet$\enspace\href{https://github.com/gabriron01}{github.com/gabriron01}}
+\summary{Structural Finite Element Analysis (FEA) engineer with a Ph.D. in computational solid mechanics and 4+ years at Google and Tesla delivering test-correlated drop-impact, quasistatic, fatigue, and fracture modeling for wearables and electric vehicles.}
 
 % -------------------- EXPERIENCE --------------------
 \section*{Experience}
 
 \roleheader{Google LLC}{Structural FEA Engineer}{Mountain View, CA}{Jun 2024 -- Present}
-
-\subhead{Hardware Structural, Assembly \& Magnetostatic Validation}
 \begin{itemize}
-  \item Led explicit drop-impact FEA, hydrostatic sealing, and thermal/battery-swell validation across \textbf{Pixel Watch 3--5}, owning \textbf{Pixel Watch 4 end-to-end} from architecture through mass production.
-  \item Resolved enclosure step-height and bio-sensor PCB solder drop failures via nonlinear fastener kinematics FEA, recommending PCB assembly changes via Change Control Board, \textbf{avoiding re-tooling and delays} while clearing Design Validation Test (DVT) builds.
-  \item Transitioned 3D magnetostatic watch-charger simulation in-house (Ansys Maxwell), \textbf{cutting turnaround from 2 weeks externally to 1 day internally} and enabling rapid design sweeps that increased side-charging pull force by up to 78\%.
+  \item Led explicit drop-impact, hydrostatic sealing, and thermal/battery-swell simulations for Pixel Watch 4 and next-generation wearables, \textbf{resolving backglass drop failures} and bio-sensor-hub assembly risks while expanding to full-system drop modeling.
+  \item Modeled nonlinear fastener kinematics to diagnose enclosure step-height and bio-sensor PCB solder drop failures, driving Change Control Board assembly updates that \textbf{cleared Design Validation Test (DVT) builds} without re-tooling.
+  \item Brought 3D magnetostatic watch-charger modeling in-house (Ansys Maxwell), replacing external vendor cycles to run rapid design sweeps that \textbf{increased side-charging pull force by up to 78\%}.
+  \item Architected a GCP Slurm HPC cluster with native/web GUI clients and Python automation (ANSA/META, Ansys, Abaqus) used by \textbf{\textasciitilde{}20 engineers (\textasciitilde{}95\% faster setup, \textasciitilde{}50\% faster solves)}; mentored 2 structural simulation interns.
 \end{itemize}
 
-\subhead{Simulation Infrastructure \& Automation}
+\roleheader{Tesla, Inc.}{Analysis Engineer, Cybertruck \& EV Programs}{Fremont, CA}{Mar 2022 -- Jun 2024}
 \begin{itemize}
-  \item Built a \textbf{\textasciitilde{}1,000-core GCP Slurm HPC cluster} from scratch for structural, thermal, and magnetostatic simulation across Pixel Watch and Devices \& Services (\textbf{Manager Spot Bonus}).
-  \item Developed \textbf{native and web clients} for one-place pre-processing, solving, and post-processing on the cluster.
-  \item Wrote custom \textbf{ANSA/META, Ansys, and Abaqus} scripts during cluster setup.
-\end{itemize}
-
-\roleheader{Tesla, Inc.}{Analysis Engineer, Cybertruck \& Cybercab Programs}{Fremont, CA}{Mar 2022 -- Jun 2024}
-\begin{itemize}
-  \item Validated Cybertruck front-chassis and megacasting FEA against proving-ground and rig tests, \textbf{achieving >90\% FEA-to-test correlation}, delivering high-cycle fatigue countermeasures and earning an \textbf{org-wide award from Tesla's VP of Vehicle Engineering}.
-  \item Partnered with Materials and Product Design to \textbf{optimize the front underbody rib structure of the Tesla Cybercab} using FEA.
-  \item Executed nonlinear full-vehicle, Body-in-White, rear underbody die-casting, and coupled thermo-mechanical high-voltage battery enclosure FEA (Abaqus, LS-DYNA), qualifying polymer/adhesive front-end assemblies.
+  \item Correlated Cybertruck front-chassis and megacasting FEA to rig tests within 10\% on quasistatic peak force (90--100\% target, avoiding over-engineering), earning an \textbf{org-wide award from Tesla's VP of Vehicle Engineering} and delivering high-cycle fatigue fixes.
+  \item Optimized front underbody rib geometry for a next-generation EV platform with Materials and Product Design teams, improving \textbf{structural stiffness and fatigue life}.
+  \item Executed nonlinear full-vehicle, Body-in-White, rear underbody die-casting, and coupled thermo-mechanical high-voltage battery enclosure simulations (Abaqus, LS-DYNA) to validate polymer/adhesive front-end assemblies.
 \end{itemize}
 
 \roleheader{Texas A\&M University (TEES)}{Postdoctoral Researcher}{College Station, TX}{Jan 2021 -- Mar 2022}
 \begin{itemize}
-  \item Developed an automated \textbf{Python/MATLAB inverse FEA--DIC framework} coupling Digital Image Correlation (DIC), universal testing machine (UTM), and dynamic mechanical analysis (DMA) testing with Abaqus Cohesive Zone Modeling to characterize viscoelastic and mixed-mode fracture behavior.
-  \item Applied cohesive zone modeling and computational fracture mechanics to simulate interfacial delamination and crack growth in heterogeneous multi-material stacks, validated against experimental fracture tests.
+  \item Built an automated \textbf{Python/MATLAB inverse FEA--DIC framework} pairing experimental DIC, UTM, and DMA testing with Abaqus cohesive-zone modeling to identify viscoelastic and mixed-mode fracture properties (\textit{Experimental Mechanics}, 2022).
+\end{itemize}
+
+\roleheader{Texas A\&M University / Univ. of Nebraska--Lincoln}{Doctoral Researcher \& Lab Manager}{College Station, TX / Lincoln, NE}{Jan 2015 -- Dec 2020}
+\begin{itemize}
+  \item Modeled rate- and mode-dependent fracture and delamination in heterogeneous viscoelastic composites via multiscale cohesive-zone FEA and semi-circular bending (SCB) tests (\textit{J. Eng. Mech.}, \textit{J. Test. Eval.}).
+  \item Managed mechanical testing labs across UNL and Texas A\&M and \textbf{mentored 6 undergraduate researchers} on experimental fracture and multiscale modeling projects.
 \end{itemize}
 
 % -------------------- TECHNICAL SKILLS --------------------
 \section*{Technical Skills}
 \begin{itemize}
   \item \textbf{Simulation \& Pre/Post:} Finite Element Analysis (FEA), SIMULIA Abaqus (Explicit, Standard, Python API), LS-DYNA, Ansys Mechanical \& Maxwell (AEDT), Simcenter FloEFD, BETA CAE (ANSA, META), Altair HyperWorks / SimLab
-  \item \textbf{Mechanics \& Lab Testing:} Explicit drop and impact, nonlinear contact and assembly kinematics, cohesive zone and Weibull B10 fracture, hydrostatic sealing, high-cycle fatigue, thermo-structural and magnetostatic coupling, Digital Image Correlation (DIC), universal testing machine (UTM), dynamic mechanical analysis (DMA)
-  \item \textbf{Cloud HPC \& Automation:} Python, MATLAB, Google Cloud Platform (GCP), High-Performance Computing (HPC), Computer-Aided Engineering (CAE), Slurm Workload Manager, Linux (RHEL), 4K GPU remote visualization (NVIDIA L4, VirtualGL, Xpra, TurboVNC)
+  \item \textbf{Mechanics \& Experimental Validation:} Explicit drop and impact, nonlinear contact and fastener kinematics, cohesive-zone fracture, hydrostatic sealing, high-cycle fatigue, coupled thermo-mechanical analysis, 3D magnetostatics, Digital Image Correlation (DIC), UTM, DMA, SCB fracture testing, nanoindentation, rig correlation
+  \item \textbf{Automation \& HPC:} Python (CAE scripting), MATLAB, Computer-Aided Engineering (CAE), High-Performance Computing (HPC), Slurm Workload Manager, Google Cloud Platform (GCP), Linux (RHEL)
 \end{itemize}
 
 % -------------------- EDUCATION --------------------
 \section*{Education}
 \begin{itemize}
-  \eduitem{\textbf{Ph.D. in Civil Engineering (Computational Solid Mechanics)}, Texas A\&M University}{GPA: 4.0 / 4.0 (2020)}
-  \eduitem{\textbf{M.S. in Civil Engineering (Structural Mechanics)}, University of Nebraska--Lincoln}{2015}
+  \eduitem{\textbf{Ph.D. in Civil Engineering (Computational Solid Mechanics)}, Texas A\&M University}{2020}
+  \eduitem{\textbf{M.S. in Civil Engineering (Minor: Mechanical \& Materials Engineering)}, University of Nebraska--Lincoln}{2015}
   \eduitem{\textbf{B.E. in Civil Engineering}, Kyung Hee University (South Korea)}{2013}
 \end{itemize}
 
-% -------------------- PUBLICATIONS & LANGUAGES --------------------
-\section*{Publications \& Languages}
+% -------------------- PUBLICATIONS & HONORS --------------------
+\section*{Publications \& Honors}
 \begin{itemize}
-  \item \textbf{Publications:} Authored \textbf{9 peer-reviewed articles} with \textbf{425 citations}.
-  \item \textbf{Languages:} English, French, Swahili, Kinyarwanda (Fluent); Korean (Proficient)
+  \item \textbf{Publications:} 9 peer-reviewed journal articles (\textbf{5 first-author}, 425 citations) across \textit{Experimental Mechanics}, \textit{Journal of Engineering Mechanics}, \textit{Construction and Building Materials}, and \textit{Journal of Testing and Evaluation}.
+  \item \textbf{Honors \& Service:} 2nd Place, 2020 ASCE-EMI Student Paper Competition (inverse viscoelastic FEA); Outstanding Master Thesis Award (UNL, 2015); Peer Reviewer for 8 mechanics and materials journals (ASCE, ASTM, Elsevier).
 \end{itemize}
 
 \end{document}
